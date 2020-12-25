@@ -124,9 +124,9 @@ canvas {
       </a>
     </li>
     <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Comments">
-        <a class="nav-link" href="/seller/comments">
+        <a class="nav-link" href="/seller/review">
           <i class="fa fa-fw fa-commenting-o"></i>
-          <span class="nav-link-text">Comments</span>
+          <span class="nav-link-text">Reviews</span>
         </a>
       </li>
       <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Order">
@@ -191,9 +191,9 @@ canvas {
       <!-- Breadcrumbs-->
       <ol class="breadcrumb">
         <li class="breadcrumb-item">
-          <a href="#">Dashboard</a>
+          <a href="/seller">Dashboard</a>
         </li>
-        <li class="breadcrumb-item active">My Dashboard</li>
+        <li class="breadcrumb-item active">@yield('Dashboard')</li>
       </ol>
 
 

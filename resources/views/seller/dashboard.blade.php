@@ -1,6 +1,6 @@
 @extends('seller.layout')
 @section('title', 'Seller-Dashboard')
-
+@section('Dashboard', 'Dashboard')
 @section('content')
 
 <div class="row">

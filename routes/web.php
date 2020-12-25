@@ -16,3 +16,6 @@ Route::get('/', function () {
 });
 
 Route::get('/seller', 'sellerController@index')->name('seller.dashboard');
+Route::get('/seller/additem', 'sellerController@additem')->name('seller.additem');
+Route::get('/seller/manageitem', 'sellerController@manageitem')->name('seller.manageitem');
+Route::get('/seller/review', 'sellerController@review')->name('seller.review');
