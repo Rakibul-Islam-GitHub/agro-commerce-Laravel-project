@@ -1,0 +1,68 @@
+@import url("https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css");
+
+body {
+  background-color: #5cb85c;
+}
+.myButton {
+  background-color: #03152b;
+  border-radius: 6px;
+  border: 1px solid #213a5e;
+  display: inline-block;
+  cursor: pointer;
+  color: #ffffff;
+  font-family: Arial;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 6px 12px;
+  text-decoration: none;
+}
+.btn-red {
+  background-color: #e9280f;
+}
+.myButton:hover {
+  background-color: #0fcfe9;
+  text-decoration: none;
+}
+
+.myButton:active {
+  position: relative;
+  top: 1px;
+}
+
+/* table style start */
+table,
+th,
+td {
+  margin-left: 31%;
+  border: 1px solid black;
+  padding-right: 10px;
+  padding-left: 10px;
+}
+table {
+  border-collapse: collapse;
+}
+
+tr:nth-child(even) {
+  background-color: lightgrey;
+}
+
+th {
+  background-color: #1c889a;
+}
+
+#list-table {
+  text-align: center;
+
+  margin-top: 50px;
+}
+#list-table2 {
+  text-align: center;
+
+  margin-top: 50px;
+}
+
+/* table style end */
+.editdltbtn,
+.editdltbtn2 {
+  color: #bd2130;
+}
