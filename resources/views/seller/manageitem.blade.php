@@ -41,7 +41,15 @@
             <td>
               <a class="editdltbtn" href="/seller/manageitem/edit/{{$d->pid}}">Edit</a> |
               <a class="editdltbtn2" data-toggle="modal" data-target="#exampleModal2" id="dltitembtn"
-                value="{{$d->pid}}">Delete</a>
+                value="{{$d->pid}}">Delete</a>|
+              @if ($d->status=='Available')
+              <a class="editdltbtn soldoutbtn" data-toggle="modal" data-target="#soldoutmodal" id="soldoutbtn"
+                value="{{$d->pid}}">Sold Out</a>
+              @else
+              <a class="editdltbtn availablebtn" data-toggle="modal" data-target="#soldoutmodal" id="soldoutbtn"
+                value="{{$d->pid}}">Available</a>
+              @endif
+
 
             </td>
           </tr>
@@ -54,6 +62,8 @@
   </div>
 
 </div>
+
+{{-- delete modal --}}
 <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
   aria-hidden="true">
   <div class="modal-dialog" role="document">
@@ -68,6 +78,26 @@
       <div class="modal-footer">
         <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
         <a id="dltconbtn" class="btn btn-primary logoutbtn">Confirm</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+{{-- soldout modal --}}
+<div class="modal fade" id="soldoutmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Do you want to make this product <em> SOLD OUT? </em></h5>
+        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+        <a class="btn btn-primary logoutbtn soldoutcon" id="soldoutconbtn">Confirm</a>
       </div>
     </div>
   </div>
@@ -134,11 +164,9 @@
   
        },
        success: function(response) {
-         alert(response);
+         //alert(response);
          window.location.href= '/seller/manageitem';
-  
-          
-  
+
        },
        error: function (request, status, error) {
        alert(error);  //it will show error in webpage if any
@@ -148,8 +176,88 @@
       });
      
    };
+
+   /// soldout confirmation by ajax
+   $('.soldoutbtn').click(function() {
+      $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+      
+      var id = $(this).attr("value");
+        
+       soldout(id);
+    });
    
+    function soldout(pid) {
   
+  $('#soldoutconbtn').click(function(){      // soldout modal confirm btn
+    // var token = $("meta[name='csrf-token']").attr("content");
+        $.ajax({
+
+     url: "/seller/manageitem/soldout",
+     type: "post",
+     
+     data: {
+      
+       'pid': pid
+
+     },
+     success: function(response) {
+       
+       window.location.href= '/seller/manageitem';
+
+     },
+     error: function (request, status, error) {
+     alert(error);  //it will show error in webpage if any
+     }
+
+     });
+    });
+   
+ };
+
+
+/// available by ajax
+$('.availablebtn').click(function() {
+      $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+      
+      var id = $(this).attr("value");
+        
+       available(id);
+    });
+    function available(pid) {
+  
+  $('#soldoutconbtn').click(function(){      // soldout modal confirm btn
+    // var token = $("meta[name='csrf-token']").attr("content");
+        $.ajax({
+
+     url: "/seller/manageitem/stockavailable",
+     type: "put",
+     
+     data: {
+      
+       'pid': pid
+
+     },
+     success: function(response) {
+       
+       window.location.href= '/seller/manageitem';
+
+     },
+     error: function (request, status, error) {
+     alert(error);  //it will show error in webpage if any
+     }
+
+     });
+    });
+   
+ };
     
   
     

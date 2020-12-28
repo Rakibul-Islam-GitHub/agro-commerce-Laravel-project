@@ -38,6 +38,41 @@ class sellerController extends Controller
         return view('seller.manageitem', compact('data'));
 
     }
+
+    public function edititem($id){
+        
+        $data= Product::where('pid', $id)->first();
+        return view('seller.edititem', compact('data'));
+
+    }
+    public function updateitem(Request $req ,$id){
+            if($req->hasFile('pic')){
+        	$file = $req->file('pic');
+            $filename= date('m-d-Y_His.').$file->getClientOriginalExtension();
+        	if($file->move('upload', $filename)){
+        		
+                
+                $product= Product:: where('pid', $id)->first();
+                $product->title         = $req->title;
+                $product->price         = $req->price;
+                $product->description         = $req->description;
+                $product->image  = $filename;
+                if($product->save()){
+                    return redirect()->route('seller.manageitem');
+                }else{
+                    return back();
+                }
+
+        	}
+        }else{
+            $product= Product:: where('pid', $id)->first();
+            $product->title         = $req->title;
+            $product->price         = $req->price;
+            $product->description         = $req->description;
+            $product->save();
+            return redirect()->route('seller.manageitem');
+        }
+    }
     public function review(Request $req){
         $user = $req->session()->get('username');
         $data= Review::where('sellerid', $user)->get();
@@ -88,6 +123,7 @@ class sellerController extends Controller
         }
     }
 
+    // ajax call functions
     public function itemdelete(Request $req){
        
         $pid= $req->pid;
@@ -95,6 +131,27 @@ class sellerController extends Controller
         $p->delete();
        
     return 'success';
+
+    }
+
+    public function soldout(Request $req){
+       
+        $pid= $req->pid;
+        $p=Product:: where('pid', $pid)->first();
+        $p->status = 'Sold Out';
+        $p->save();
+       
+        return 'success';
+
+    }
+    public function stockavailable(Request $req){
+       
+        $pid= $req->pid;
+        $p=Product:: where('pid', $pid)->first();
+        $p->status = 'Available';
+        $p->save();
+       
+        return 'success';
 
     }
 }
