@@ -53,7 +53,7 @@
     </div>
   </div>
 
-  <div class="chart-container">
+  <div class="chart-container" style="height: 250px">
     <canvas id="chart"></canvas>
   </div>
 
@@ -118,34 +118,11 @@
   $(document).ready(function() {
   
     // chart start
+    showchart();
   
-    $.ajax({
-  
-  url: "/seller/report",
-  type: "POST",
-  data: {
-  
-  'sellerid': 'seller id'
-  
-  },
-  success: function(response) {
-    showchart(response.length);
-  
-  
-  },
-  error: function (request, status, error) {
-  //alert('error');  //it will show error in webpage if any
-  }
-  
-  });
-  
-  
-    
-    //alert(monthdata);
-  
-    function showchart(lastdata){
+    function showchart(){
       let monthdata =  [.4, .2, .2, .6, .1, .3, 1];
-    monthdata[6]= lastdata;
+    monthdata[6]= {{$datas}};
       
     var data = {
     labels: ["May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov"],
@@ -206,38 +183,11 @@
       
     }
   
-        // var dltid = $(this).attr("value");
-      // // alert(dltid);
-      // report(dltid); 
-    $('.order-report').click(function() {
+    $('#order-report').click(function(){
+      downloadexcel({{$data}});
+    })
   
-  $.ajax({
-  
-  url: "/seller/report",
-  type: "POST",
-  data: {
-  
-  'sellerid': 'seller id'
-  
-  },
-  success: function(response) {
-  
-  downloadexcel(response);
-  // window.location.href= '/seller/manageitem/delete/confirm';
-  
-  
-  
-  },
-  error: function (request, status, error) {
-  //alert('error');  //it will show error in webpage if any
-  }
-  
-  });
-      
-    });
-  
-  
-    
+
   // pdf generator
   
   document.getElementById("pdf-report")
