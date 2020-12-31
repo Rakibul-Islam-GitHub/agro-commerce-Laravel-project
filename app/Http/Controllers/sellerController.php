@@ -77,7 +77,11 @@ class sellerController extends Controller
     }
     public function review(Request $req){
         $user = $req->session()->get('username');
-        $data= Review::where('sellerid', $user)->get();
+       // $data= Review::where('sellerid', $user)->get();
+        $data = DB::table('review')
+        ->join('products', 'review.productid', '=', 'products.pid')->where('review.sellerid', $user)
+        ->select('review.*','products.title')
+        ->get();
         return view('seller.review', compact('data'));
 
     }

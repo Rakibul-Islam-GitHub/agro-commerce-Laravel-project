@@ -21,7 +21,7 @@
 
       <tr>
         <td>{{$d->rid}}</td>
-        <td>{{$d->productid}}</td>
+        <td>{{$d->title}}</td>
         <td>{{$d->date}}</td>
         <td>{{$d->review}}</td>
 
