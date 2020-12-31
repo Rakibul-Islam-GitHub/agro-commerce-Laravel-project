@@ -40,13 +40,13 @@
 
           <td>
 
-            <a class="editdltbtn2" id="dltitembtn" href="/seller/order/{{$d->oid}}" value="{{$d->oid}}">Approve Now</a>
+            <a class="editdltbtn2 approvebtn" id="dltitembtn" value="{{$d->oid}}">Approve Now</a>
 
           </td>
 
           @else
           <td>
-            <p class="color-green">Approved</p>
+            <p class="color-green" style="color: green">Approved</p>
           </td>
           @endif
 
@@ -91,9 +91,53 @@
       }       
     }
   }
+
+  /// order approve by ajax
+  $('.approvebtn').click(function(){
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+      
+      var id = $(this).attr("value");
+      
+      approve(id);
+
+  });
+  
+  function approve(id) {
+   
+    $.ajax({
+      url: "/seller/order/approveorder",
+type: "put",
+
+data: {
+ 
+  'pid': id
+
+},
+success: function(response) {
+
+  if (response=='success') {
+    alert('This order is approved!');
+    window.location.href= '/seller/order';
+    
+  }
   
   
-  
+
+},
+error: function (request, status, error) {
+alert(error);  //it will show error in webpage if any
+}
+      
+
+    });
+    
+  }
+
+  /// order approve end
   
     $('#logoutbtn').click(function(){
         

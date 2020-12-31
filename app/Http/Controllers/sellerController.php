@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Review;
 use App\Product;
+use App\User;
 use DB;
 
 class sellerController extends Controller
@@ -22,8 +23,9 @@ class sellerController extends Controller
        ->get();
 
        $datas= count($data);
+       $orders= json_encode($data);
        
-        return view('seller.dashboard', compact('reviews', 'products', 'datas', 'data'));
+        return view('seller.dashboard', compact('reviews', 'products', 'datas', 'data', 'orders'));
 
     }
 
@@ -122,6 +124,22 @@ class sellerController extends Controller
         	}
         }
     }
+    public function profile(Request $req){
+        $uid = $req->session()->get('username');
+        $data= User::where('uid', $uid)->get();
+        return view('seller.profile', compact('data'));
+
+    }
+    public function profileupdate(Request $req){
+        $uid= $req->session()->get('username');
+        $user = User:: find($uid);
+        $user->name = $req->name;
+        $user->address = $req->address;
+        $user->phone = $req->phone;
+        $user->email = $req->email;
+        $user->save();
+        return redirect()->route('seller.profile');
+    }
 
     // ajax call functions
     public function itemdelete(Request $req){
@@ -150,6 +168,20 @@ class sellerController extends Controller
         $p=Product:: where('pid', $pid)->first();
         $p->status = 'Available';
         $p->save();
+       
+        return 'success';
+
+    }
+    
+    public function approveorder(Request $req){
+       
+        $id= $req->pid;
+        $result = DB::table('orders')
+    ->where('oid', $id)
+    ->update([
+        'status' => 'complete'
+        
+    ]);
        
         return 'success';
 

@@ -184,7 +184,10 @@
     }
   
     $('#order-report').click(function(){
-      downloadexcel({{$data}});
+
+      // var order= {{$orders[0]}};
+      // alert(order);
+       // downloadexcel(order);
     })
   
 

@@ -25,4 +25,7 @@ Route::put('/seller/manageitem/stockavailable', 'sellerController@stockavailable
 Route::get('/seller/manageitem/delete', 'sellerController@itemdelete');
 Route::get('/seller/review', 'sellerController@review')->name('seller.review');
 Route::get('/seller/order', 'sellerController@order')->name('seller.order');
+Route::put('/seller/order/approveorder', 'sellerController@approveorder')->name('seller.order');
 Route::post('/seller/additem', 'sellerController@itemstore');
+Route::get('/seller/profile', 'sellerController@profile')->name('seller.profile');
+Route::post('/seller/profile', 'sellerController@profileupdate')->name('seller.profileupdate');
