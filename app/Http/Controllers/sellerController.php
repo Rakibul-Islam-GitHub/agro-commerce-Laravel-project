@@ -144,6 +144,38 @@ class sellerController extends Controller
         $user->save();
         return redirect()->route('seller.profile');
     }
+    public function message(Request $req){
+        $id= $req->session()->get('username');
+        $data= User::where('uid', '!=', 10)->get();
+       
+        return view('seller.message', compact('data'));
+
+    }
+    public function messageshow(Request $req){
+
+       $id = $req->userid;
+       $data = DB::table('chats')
+       ->join('users', 'chats.uid', '=', 'users.uid')->where('users.uid', $id)
+       ->select('chats.*', 'users.name')
+       ->get();
+       echo "
+
+       <div class='msg-bubble mt-2'>
+     
+     
+         <div class='msg-info'>
+           <div class='msg-info-name'>".$data[0]->name."</div>
+           <div class='msg-info-time'>".$data[0]->time." </div>
+         </div>
+     
+         <div class='msg-text'>".$data[0]->msg."</div>
+       </div>
+       <span><img class='chatimg' src=''></img></span>
+     
+     
+       ";
+
+    }
 
     // ajax call functions
     public function itemdelete(Request $req){
@@ -153,6 +185,14 @@ class sellerController extends Controller
         $p->delete();
        
     return 'success';
+
+    }
+    public function reviewdelete(Request $req){
+        $reviewid= $req->id;
+        $review = Review:: find($reviewid);
+        $review->delete();
+
+        return 'success';
 
     }
 

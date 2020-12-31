@@ -9,7 +9,7 @@
       <tr>
 
         <th scope="col">Customer</th>
-        <th scope="col">ProductID</th>
+        <th scope="col">Product</th>
         <th scope="col">Date</th>
         <th scope="col">Review</th>
         <th scope="col">Action</th>
@@ -27,7 +27,8 @@
 
         <td>
 
-          <a class="editdltbtn2" href="/product/{{$d->rid}}" id="dltitembtn" value="{{$d->rid}}">Delete</a>
+          <a class="editdltbtn2 reviewdltbtn" id="dltitembtn" data-toggle="modal" data-target='#reviewdltmodal'
+            value="{{$d->rid}}">Delete</a>
 
         </td>
       </tr>
@@ -37,6 +38,26 @@
 
     </tbody>
   </table>
+</div>
+
+{{-- delete review modal --}}
+<div class="modal fade" id="reviewdltmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Do you want to delete this <em> Review? </em></h5>
+        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+        <a class="btn btn-primary  reviewdltcon" id="reviewdltconbtn">Confirm</a>
+      </div>
+    </div>
+  </div>
 </div>
 @endsection
 
@@ -54,6 +75,48 @@
       });
   
     });
+
+/// review delete by ajax start
+    $('.reviewdltbtn').click(function () {
+      $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+      var id = $(this).attr('value');
+      alert(id);
+      deletereview(id);
+    });
+
+    function deletereview(id) {
+  
+  $('#reviewdltconbtn').click(function(e){      // delete  confirm btn of modal
+    
+    e.preventDefault();
+        $.ajax({
+
+     url: "/seller/review/delete",
+     type: "post",
+     
+     data: {
+      
+      
+       'id': id
+
+     },
+     success: function(response) {
+       //alert(response);
+       window.location.href= '/seller/review';
+
+     },
+     error: function (request, status, error) {
+     alert(error);  //it will show error in webpage if any
+     }
+
+     });
+    });
+   
+ };
   
     // tooltip functions start
     (function($) {
