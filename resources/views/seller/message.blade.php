@@ -4,7 +4,12 @@
 <style>
     /* style for chat page start */
 
-
+    html,
+    body {
+        margin: 0;
+        height: 100%;
+        overflow: hidden !important;
+    }
 
     #chatpage {
 
@@ -21,10 +26,10 @@
         display: flex;
         flex-flow: column wrap;
         justify-content: space-between;
-        width: 70%;
+        width: 60%;
         max-width: 867px;
 
-        height: 650px;
+        height: 640px;
         border: 2px solid #ddd;
         border-radius: 5px;
         background: #fff;
@@ -191,6 +196,11 @@
         height: 44px;
     }
 
+    .userlist1.float-right {
+        position: relative;
+        right: 155px;
+    }
+
 
     /* style for chat page end */
 </style>
@@ -202,7 +212,7 @@
         <div class="userlist">
 
             @foreach ($data as $d)
-            <a href='#' name='{{$d->uid}}' class='start_chat badge badge-primary'>{{$d->name}}</a>
+            <a name='{{$d->uid}}' class='start_chat badge badge-primary'>{{$d->name}}</a>
 
             @endforeach
 
@@ -256,14 +266,66 @@
 
 <script>
     $(document).ready(function() {
-   // alert('ok');
-   
+   $('.breadcrumb').hide();
+
+   /// chat / messenger start
+var chatusername='';
+$(document).on('click', '.start_chat', function(){
+    chatusername=$(this).attr('name');
+  loadallchat(chatusername);
+
+});
+
+$('#sendmsg').on('click',function(e){
+ // alert(username);
+if (chatusername=='') {
+  alert('Please select an user to starting chat!');
+
+}
+e.preventDefault();
+var msg=$('#msg').val();
+var user=chatusername;
+
+if (msg=='') {
+  alert('Please type a message and then hit send!');
+}
+else {
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+  //alert(user);
+  $.ajax({
+   url: "/seller/message",
+   type: "POST",
+   data: {
+     'userid': user,
+     'msg': msg
+
+   },
+
+   success: function(d) {
+     $('#msg').val('');
+     loadallchat(user);
+     var element=document.getElementById("showmsg");
+     element.scrollTop=element.scrollHeight;
+   },
+   error: function (request, status, error) {
+   alert('error');
+   }
+   });
+
+
+  }
+
+});
 
 
 
-   loadallchat();
 
-function loadallchat(){
+
+function loadallchat(id){
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -271,21 +333,50 @@ function loadallchat(){
     });
     
     //var username = $(this).attr('name');
-    var id= 1;
+    
     
 
 $.ajax({
  url: "/seller/messageshow",
  type: "post",
+ dataType: 'json',
+ 
  data: {
 
    'userid': id
  },
 
  success: function(response) {
+     var data= response.data;
+    // var obj = JSON. stringify(response)
+    var bodyData = '';
+     //alert(data[0].msg);
+     $.each(data,function(index,row){
+                   
+                   
+                    bodyData+="<div class='msg-bubble mt-2'>"
 
-   //alert(response);
-    $('.showmsg').html(response);
+
+                    bodyData+="<div class='msg-info'>";
+                    bodyData+="<div class='msg-info-name'>";
+                    bodyData+=row.name;
+                    bodyData+="</div>"
+                    bodyData+="<div class='msg-info-time'>";
+                    bodyData+=row.time;
+                    bodyData+="</div>";
+                    bodyData+="</div>"
+                    bodyData+="<div class='msg-text'>";
+                    bodyData+=row.msg;
+                    bodyData+="</div>";
+                     
+                    
+                    bodyData+="</div>";
+                    
+                    
+                })
+                $(".showmsg").html(bodyData);
+    
+                
 
  },
  error: function (request, status, error) {

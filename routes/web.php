@@ -31,4 +31,6 @@ Route::post('/seller/additem', 'sellerController@itemstore');
 Route::get('/seller/profile', 'sellerController@profile')->name('seller.profile');
 Route::post('/seller/profile', 'sellerController@profileupdate')->name('seller.profileupdate');
 Route::get('/seller/message', 'sellerController@message')->name('seller.message');
+Route::post('/seller/message', 'sellerController@messagestore');
 Route::post('/seller/messageshow', 'sellerController@messageshow');
+Route::get('/seller/category', 'sellerController@guzzlereq');

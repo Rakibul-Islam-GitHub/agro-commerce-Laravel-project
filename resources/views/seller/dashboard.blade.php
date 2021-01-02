@@ -112,7 +112,6 @@
 @section('script')
 <script>
   // -- main function start
-  
   const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
   const EXCEL_EXTENSION = '.xlsx';
   $(document).ready(function() {
@@ -125,7 +124,7 @@
     monthdata[6]= {{$datas}};
       
     var data = {
-    labels: ["May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov"],
+    labels: ["Jul","Aug", "Sep", "Oct", "Nov", "Dec", "jan"],
     datasets: [{
       label: "Total order per month",
       backgroundColor: "rgba(255,99,132,0.2)",
@@ -186,8 +185,11 @@
     $('#order-report').click(function(){
 
       // var order= {{$orders[0]}};
+      
       // alert(order);
-       // downloadexcel(order);
+  //     var data = {{ $data }};
+  // alert(data);
+  //      downloadexcel(data);
     })
   
 

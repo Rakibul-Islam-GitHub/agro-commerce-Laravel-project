@@ -10,6 +10,22 @@ use DB;
 
 class sellerController extends Controller
 {
+    function guzzlereq(){
+    $client = new \GuzzleHttp\Client();
+    $response = $client->request('GET', 'http://localhost:3000/seller/comments');
+    //echo $response->getStatusCode(); // 200
+    // echo $response->getHeaderLine('content-type'); // 'application/json; charset=utf8'
+      $data = $response->getBody();
+      //var_dump(json_decode($data));
+      $var = json_decode($data);
+      //dd($var);
+      $test = $var[0]->id;
+      echo $test;
+      return view('seller.category',compact('var'));
+
+    }
+
+
    public function index(Request $req){
        $req->session()->put('username', '1');
        $user = $req->session()->get('username');
@@ -151,29 +167,31 @@ class sellerController extends Controller
         return view('seller.message', compact('data'));
 
     }
-    public function messageshow(Request $req){
+    public function messagestore(Request $req){
+        $senderid= $req->session()->get('username');
+        $receiverid = $req->userid;
+        $msg= $req->msg;
+        date_default_timezone_set('Asia/Dhaka');  // Set timezone.
+        $time= date('g:i a, d-M');
+        $post = DB::table('chats')->insert([
+            'uid' => $senderid, 
+            'sender' => $senderid,
+            'receiver'=> $receiverid,
+            'msg' => $msg,
+            'time' => $time
+          ]);
+          return 'success';
 
+    }
+    public function messageshow(Request $req){
+       $senderid= $req->session()->get('username');
        $id = $req->userid;
        $data = DB::table('chats')
-       ->join('users', 'chats.uid', '=', 'users.uid')->where('users.uid', $id)
+       ->join('users', 'chats.uid', '=', 'users.uid')->where('users.uid', $senderid)->where('chats.receiver', $id)
        ->select('chats.*', 'users.name')
        ->get();
-       echo "
-
-       <div class='msg-bubble mt-2'>
-     
-     
-         <div class='msg-info'>
-           <div class='msg-info-name'>".$data[0]->name."</div>
-           <div class='msg-info-time'>".$data[0]->time." </div>
-         </div>
-     
-         <div class='msg-text'>".$data[0]->msg."</div>
-       </div>
-       <span><img class='chatimg' src=''></img></span>
-     
-     
-       ";
+        return json_encode(array('data'=>$data));
+      
 
     }
 
