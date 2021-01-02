@@ -12,7 +12,7 @@ class sellerController extends Controller
 {
     function guzzlereq(){
     $client = new \GuzzleHttp\Client();
-    $response = $client->request('GET', 'http://localhost:3000/seller/comments');
+    $response = $client->request('GET', 'http://localhost:3000/seller/getcategory');
     //echo $response->getStatusCode(); // 200
     // echo $response->getHeaderLine('content-type'); // 'application/json; charset=utf8'
       $data = $response->getBody();

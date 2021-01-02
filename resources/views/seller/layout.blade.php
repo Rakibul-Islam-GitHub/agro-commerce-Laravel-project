@@ -153,6 +153,12 @@
             <span class="nav-link-text">Orders</span>
           </a>
         </li>
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Order">
+          <a class="nav-link" href="/seller/category">
+            <i class="fa fa-fw fa-shopping-cart"></i>
+            <span class="nav-link-text">Category</span>
+          </a>
+        </li>
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Components">
           <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseComponents"
             data-parent="#exampleAccordion">
