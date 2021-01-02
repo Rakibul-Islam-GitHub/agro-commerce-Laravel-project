@@ -15,6 +15,16 @@
     </ul>
 
     @endforeach
+
+    <div>
+        <form method="POST" action="/seller/addcategory">
+            <input type="hidden" name="_token" value="{{csrf_token()}}">
+            <input name="name" type="text">
+            <input type="submit" value="Add more category">
+
+        </form>
+
+    </div>
 </div>
 
 

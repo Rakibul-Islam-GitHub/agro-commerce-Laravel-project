@@ -24,6 +24,15 @@ class sellerController extends Controller
       return view('seller.category',compact('var'));
 
     }
+    function addcategory(Request $req){
+        $name = $req->name;
+        $client = new \GuzzleHttp\Client();
+    // $url = "http://localhost:3000/seller/category";
+    $client->request('POST', 'http://localhost:3000/seller/category', ['json' => ['name' => $name]]);
+  
+    return redirect()->route('seller.category');
+    
+        }
 
 
    public function index(Request $req){
