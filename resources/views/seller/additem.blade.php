@@ -7,26 +7,32 @@
 <div class="row justify-content-center additemdiv">
   <div class="col-12 col-md-8 col-lg-8 col-xl-6">
 
+
+    @foreach($errors->all() as $err)
+    <span style=" color: red;">{{$err}} <br></span>
+    @endforeach
+
+
     <form method="POST" action="" enctype="multipart/form-data">
       <input type="hidden" name="_token" value="{{csrf_token()}}">
       <div class=" col-10 ">
         <div class="form-group">
           <label class="control-label">Product Title</label>
           <div class="">
-            <input type="text" id="title" name="title" class="form-control">
+            <input type="text" id="title" value="{{old('title')}}" name="title" class="form-control">
           </div>
         </div>
         <div class="form-group">
           <label class="control-label">Product Price</label>
           <div class="">
-            <input type="text" id="price" name="price" class="form-control">
+            <input type="text" id="price" name="price" value="{{old('price')}}" class="form-control">
           </div>
         </div>
 
         <div class="form-group">
           <label class="control-label">Description</label>
           <div class="">
-            <textarea name="description" id="description" cols="60" rows="6"></textarea>
+            <textarea name="description" id="description" cols="60" rows="6">{{old('description')}}</textarea>
           </div>
         </div>
 

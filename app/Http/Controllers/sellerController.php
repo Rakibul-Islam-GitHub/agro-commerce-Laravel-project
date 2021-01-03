@@ -7,6 +7,7 @@ use App\Review;
 use App\Product;
 use App\User;
 use DB;
+use Illuminate\Support\Facades\Validator;
 
 class sellerController extends Controller
 {
@@ -123,6 +124,20 @@ class sellerController extends Controller
 
 
     public function itemstore(Request $req){
+        $validation=Validator::make($req->all(),[
+            'title'=>'required|min:3|string',
+            'price'=>'required|min:1|numeric',
+            'description'=>'required|min:2|string',
+            'pic'=>'required',
+    
+          ]);
+        if ($validation->fails()) {
+
+            // redirect back to msg send page
+            // with submitted form data
+            return redirect('seller/additem')
+        ->with('errors',$validation->errors())->withInput();;
+        }
         if($req->hasFile('pic')){
 
         	$file = $req->file('pic');
@@ -151,6 +166,8 @@ class sellerController extends Controller
         	}else{
         		return back();
         	}
+        }else{
+            return redirect()->route('seller.additem', ['msg' => 'select an image']);
         }
     }
     public function profile(Request $req){
@@ -177,6 +194,7 @@ class sellerController extends Controller
 
     }
     public function messagestore(Request $req){
+        
         $senderid= $req->session()->get('username');
         $receiverid = $req->userid;
         $msg= $req->msg;
