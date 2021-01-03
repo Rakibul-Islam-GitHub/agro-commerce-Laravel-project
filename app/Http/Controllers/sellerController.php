@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Review;
 use App\Product;
+use App\Pendingitem;
 use App\User;
 use DB;
 use Illuminate\Support\Facades\Validator;
@@ -25,7 +26,7 @@ class sellerController extends Controller
       return view('seller.category',compact('var'));
 
     }
-    function addcategory(Request $req){
+    function addcategory(Request $req){    // post req to nodeJs
         $name = $req->name;
         $client = new \GuzzleHttp\Client();
     // $url = "http://localhost:3000/seller/category";
@@ -123,7 +124,7 @@ class sellerController extends Controller
     }
 
 
-    public function itemstore(Request $req){
+    public function itemstore(Request $req){    // adding/ inserting product to DB
         $validation=Validator::make($req->all(),[
             'title'=>'required|min:3|string',
             'price'=>'required|min:1|numeric',
@@ -146,18 +147,31 @@ class sellerController extends Controller
         	echo "File Size: ".$file->getSize();*/
             $filename= date('m-d-Y_His.').$file->getClientOriginalExtension();
         	if($file->move('upload', $filename)){
+                date_default_timezone_set('Asia/Dhaka');  // Set timezone.
+                $time= date('g:i a, d-M');
         		
-                $product = new Product();
+                $product = new Pendingitem();
+                $username= User::where('uid', '=', $req->session()->get('username'))->get();
 
-                $product->sellerid         = $req->session()->get('username') ;
-                $product->shop_name         = 'Agri shop';
+                $product->creatorid         = $req->session()->get('username');
+                $product->creatorname         = $username[0]->name;
                 $product->title         = $req->title;
                 $product->price         = $req->price;
                 $product->description         = $req->description;
                 $product->image  = $filename;
-                $product->status         = 'Available';
+                $product->createtime         = $time;
 
-                if($product->save()){
+                if($product->save()){     // when it will go to pending table data will also go to nodejs
+                 
+                    $name = $req->name;
+                    $client = new \GuzzleHttp\Client();
+                // $url = "http://localhost:3000/validator/validationreq";
+                $data = Pendingitem::select("*")
+                ->orderBy("id", "desc")
+                ->get();
+                
+                $client->request('POST', 'http://localhost:3000/validator/validationreq', ['json' => ['pendingreq' =>$data[0]]]);
+
                     return redirect()->route('seller.manageitem');
                 }else{
                     return back();
