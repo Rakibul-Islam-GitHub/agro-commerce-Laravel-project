@@ -47,7 +47,8 @@ class loginControllerall extends Controller
                     ->get();
 
         if(count($user)>0){
-            $req->session()->put('username', $req->username);
+            $req->session()->put('username', $user->uid);
+            $req->session()->put('email', $req->username);
             return redirect()->route('seller.dashboard');
         }else{
             $req->session()->flash('msg', 'invalid username/password');

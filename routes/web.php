@@ -19,7 +19,10 @@ Route::get('/login/google', 'loginControllerall@redirectToProvider');
 Route::get('/login/google/callback', 'loginControllerall@handleProviderCallback');
 
 Route::get('/login', 'loginControllerall@index')->name('seller.login');
-Route::post('/login', 'loginControllerall@verify')->name('seller.login');
+Route::post('/login', 'loginControllerall@verify');
+Route::get('/logout', 'logoutControllerall@index')->name('logout');
+
+
 Route::get('/seller', 'sellerController@index')->name('seller.dashboard');
 Route::get('/seller/additem', 'sellerController@additem')->name('seller.additem');
 Route::get('/seller/manageitem', 'sellerController@manageitem')->name('seller.manageitem');
