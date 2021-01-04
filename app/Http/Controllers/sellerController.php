@@ -184,6 +184,21 @@ class sellerController extends Controller
             return redirect()->route('seller.additem', ['msg' => 'select an image']);
         }
     }
+    public function getapproval(){
+        $client = new \GuzzleHttp\Client();
+        // $url = "http://localhost:3000/validator/validationreq";
+        $data = ["Rakibul Islam"];
+        
+        $response= $client->request('get', 'http://localhost:3000/validator/getapproval', ['json' => ['seller' =>$data[0]]]);
+        $data = $response->getBody();
+        //var_dump(json_decode($data));
+        $var = json_decode($data);
+        dd($var);
+        return redirect('seller/getap');
+        // $test = $var[0]->id;
+        // echo $test;
+           // return redirect()->route('seller.manageitem');
+    }
     public function profile(Request $req){
         $uid = $req->session()->get('username');
         $data= User::where('uid', $uid)->get();

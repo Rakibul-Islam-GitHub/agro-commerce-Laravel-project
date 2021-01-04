@@ -40,3 +40,4 @@ Route::post('/seller/message', 'sellerController@messagestore');
 Route::post('/seller/messageshow', 'sellerController@messageshow');
 Route::get('/seller/category', 'sellerController@guzzlereq')->name('seller.category');
 Route::post('/seller/addcategory', 'sellerController@addcategory');
+Route::get('/seller/getap', 'sellerController@getapproval');
