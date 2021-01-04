@@ -6,10 +6,7 @@
 <div class="row justify-content-center additemdiv">
     <div class="col-12 col-md-8 col-lg-8 col-xl-6">
         <div class="col-6 mb-5">
-            <div>
-                <img src="/image/<%=image%>" width="160px" height="120px" alt="profile_pic">
-                <a class="d-block" href="/seller/profile/edit">Change profile picture</a>
-            </div>
+
 
         </div>
 
@@ -40,7 +37,7 @@
                 <div class="form-group">
                     <label class="control-label">Email</label>
                     <div class="">
-                        <input type="text" name="email" value="{{$data[0]->email}}" class="form-control">
+                        <input type="text" name="email" readonly value="{{$data[0]->email}}" class="form-control">
                     </div>
                 </div>
                 <div class="text-center">

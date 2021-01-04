@@ -46,7 +46,7 @@
               <a class="editdltbtn soldoutbtn" data-toggle="modal" data-target="#soldoutmodal" id="soldoutbtn"
                 value="{{$d->pid}}">Sold Out</a>
               @else
-              <a class="editdltbtn availablebtn" data-toggle="modal" data-target="#soldoutmodal" id="soldoutbtn"
+              <a class="editdltbtn availablebtn" data-toggle="modal" data-target="#availablemodal" id="availablebtn"
                 value="{{$d->pid}}">Available</a>
               @endif
 
@@ -98,6 +98,25 @@
       <div class="modal-footer">
         <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
         <a class="btn btn-primary logoutbtn soldoutcon" id="soldoutconbtn">Confirm</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="availablemodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Do you want to make this product <em> Available? </em></h5>
+        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+        <a class="btn btn-primary logoutbtn availablecon" id="soldoutconbtn">Confirm</a>
       </div>
     </div>
   </div>
@@ -233,7 +252,7 @@ $('.availablebtn').click(function() {
     });
     function available(pid) {
   
-  $('#soldoutconbtn').click(function(){      // soldout modal confirm btn
+  $('.availablecon').click(function(){      // soldout modal confirm btn
     // var token = $("meta[name='csrf-token']").attr("content");
         $.ajax({
 

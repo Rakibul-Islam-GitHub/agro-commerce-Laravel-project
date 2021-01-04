@@ -21,13 +21,27 @@ class sellerController extends Controller
       //var_dump(json_decode($data));
       $var = json_decode($data);
       //dd($var);
-      $test = $var[0]->id;
-      echo $test;
-      return view('seller.category',compact('var'));
+      if (gettype($var)=='NULL') {
+        return view('seller.category', compact('var'));
+      }else{
+        return view('seller.category',compact('var'));
+      }
+      
+      //return view('seller.category',compact('var'));
 
     }
-    function addcategory(Request $req){    // post req to nodeJs
+    function addcategory(Request $req){    // post req to nodeJs to add category
         $name = $req->name;
+        $validation=Validator::make($req->all(),[
+            'name'=>'required|string',
+           
+    
+          ]);
+        if ($validation->fails()) {
+
+            return redirect()->route('seller.category')
+        ->with('errors',$validation->errors());;
+        }
         $client = new \GuzzleHttp\Client();
     // $url = "http://localhost:3000/seller/category";
     $client->request('POST', 'http://localhost:3000/seller/category', ['json' => ['name' => $name]]);
@@ -38,7 +52,7 @@ class sellerController extends Controller
 
 
    public function index(Request $req){
-       $req->session()->put('username', '1');
+     //  $req->session()->put('username', '1');
        $user = $req->session()->get('username');
        $reviews=count(Review::where('sellerid', $user)->get());
        $products=count(Product::where('sellerid', $user)->get());
@@ -63,8 +77,39 @@ class sellerController extends Controller
 
     public function manageitem(Request $req){
         $user = $req->session()->get('username');
+        // guzzle req to nodejs to find any new approval
+        $client = new \GuzzleHttp\Client();
+        // $url = "http://localhost:3000/validator/validationreq";
+        $name= User::where('uid', '=', $req->session()->get('username'))->get();
+        $data = [$name[0]->name];
+        
+        $response= $client->request('get', 'http://localhost:3000/validator/getapproval', ['json' => ['seller' =>$data[0]]]);
+        $data = $response->getBody();
+        //var_dump(json_decode($data));
+        $var = json_decode($data);
+        if (gettype($var)!='NULL') {
+            $product = new Product();
+
+                $product->sellerid         = $req->session()->get('username') ;
+                $product->shop_name         = $var[0]->creatorname;
+                $product->title         = $var[0]->title;
+                $product->price         = $var[0]->price;
+                $product->description         = $var[0]->description;
+                $product->image  = $var[0]->image;
+                $product->status         = 'Available';
+
+                if($product->save()){
+                    $pid= $var[0]->id;
+                    $p=Pendingitem:: find($pid);
+                    $p->delete();
+                    $data= Product::where('sellerid', $user)->get();
+                    return view('seller.manageitem', compact('data'));
+                }
+        }else{
+               
         $data= Product::where('sellerid', $user)->get();
         return view('seller.manageitem', compact('data'));
+        }
 
     }
 
@@ -312,5 +357,17 @@ class sellerController extends Controller
        ->get();
     
        return json_encode($data);
+    }
+
+    public function categorydelete(Request $req){
+        $categoryid= $req->id;
+        $client = new \GuzzleHttp\Client();
+        // $url = "http://localhost:3000/seller/category";
+        $client->request('POST', 'http://localhost:3000/seller/categorydelete', ['json' => ['id' => $categoryid]]);
+      
+       // return redirect()->route('seller.category');
+
+        return 'success';
+
     }
 }

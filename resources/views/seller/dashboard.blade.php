@@ -201,8 +201,9 @@ data: {
 
 },
 success: function(response) {
+  alert(response);
   var data = JSON.parse(response);
- downloadexcel(data);
+ //downloadexcel(data);
 
 },
 error: function (request, status, error) {

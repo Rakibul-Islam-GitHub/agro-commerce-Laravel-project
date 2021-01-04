@@ -135,12 +135,7 @@
             <span class="nav-link-text">Manage Items</span>
           </a>
         </li>
-        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Manage Items">
-          <a class="nav-link" href="/seller/managecategory">
-            <i class="fa fa-fw fa-bars"></i>
-            <span class="nav-link-text">Manage Category</span>
-          </a>
-        </li>
+
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Comments">
           <a class="nav-link" href="/seller/review">
             <i class="fa fa-fw fa-commenting-o"></i>
@@ -157,6 +152,12 @@
           <a class="nav-link" href="/seller/category">
             <i class="fa fa-fw fa-shopping-cart"></i>
             <span class="nav-link-text">Category</span>
+          </a>
+        </li>
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Order">
+          <a class="nav-link" href="/seller/message">
+            <i class="fa fa-fw fa-envelope"></i>
+            <span class="nav-link-text"> Message</span>
           </a>
         </li>
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Components">
