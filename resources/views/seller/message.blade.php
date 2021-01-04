@@ -385,6 +385,17 @@ $.ajax({
 });
 }
 
+$('#logoutbtn').click(function(){
+        $.ajax({
+        method: "GET", 
+        url: "/logout", 
+       
+      })
+      .done(function( res ) {
+          window.location.href= '/login';
+      });
+  
+    });
 
 });
 </script>

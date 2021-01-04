@@ -60,3 +60,24 @@
 
 
 @endsection
+
+@section('script')
+<script>
+    $(document).ready(function() {
+    $('#logoutbtn').click(function(){
+        $.ajax({
+        method: "GET", 
+        url: "/logout", 
+       
+      })
+      .done(function( res ) {
+          window.location.href= '/login';
+      });
+  
+    });
+  
+  });
+   
+</script>
+
+@endsection

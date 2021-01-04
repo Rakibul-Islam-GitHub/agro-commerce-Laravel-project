@@ -304,4 +304,13 @@ class sellerController extends Controller
         return 'success';
 
     }
+    public function excelreport(Request $req){
+        $id= $req->id;
+        $data = DB::table('orders')
+       ->join('invoice', 'invoice.oid', '=', 'orders.oid')->where('invoice.sellerid', $id)
+       ->select('orders.*')
+       ->get();
+    
+       return json_encode($data);
+    }
 }

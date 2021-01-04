@@ -27,11 +27,13 @@ class loginControllerall extends Controller
        $usercheck = User::where('email', $googlemail)->get();
        if(count($usercheck)>0){
 
-                    $userid = User::where('email', $googlemail)
-                    ->get();
+         $user = User::where('email', $googlemail)
+                 ->get();
 
-        $req->session()->put('username', $userid[0]->uid);
-        return redirect()->route('seller.dashboard');
+                 $req->session()->put('username', $user[0]->uid);
+                 $req->session()->put('email',  $googlemail);
+                 $req->session()->put('type', 'seller');
+                 return redirect()->route('seller.dashboard');
     }else{
         $req->session()->flash('msg', 'invalid username/password');
         return redirect('/login');
@@ -44,20 +46,20 @@ class loginControllerall extends Controller
       // $user= User::find()->all
        $user = User::where('email', $req->username)
                     ->where('password', $req->password)
-                    ->first();
+                    ->get();
                     // if ($user->role== 'seller') {
                         
                     // }
                     if(count($user)>0){
-                        if ($user->role== 'seller') {
-                            $req->session()->put('username', $user->uid);
+                        if ($user[0]->role== 'seller') {
+                        $req->session()->put('username', $user[0]->uid);
                         $req->session()->put('email', $req->username);
                         $req->session()->put('type', 'seller');
                         return redirect()->route('seller.dashboard');
                         }
                         
                     } else{
-                        $req->session()->flash('msg', 'invalid username/password');
+                        $req->session()->flash('msg', 'Invalid username/password');
                         return redirect('/login');
                     }
             

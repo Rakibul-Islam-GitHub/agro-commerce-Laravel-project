@@ -20,7 +20,7 @@ Route::get('/login/google/callback', 'loginControllerall@handleProviderCallback'
 
 Route::get('/login', 'loginControllerall@index')->name('seller.login');
 Route::post('/login', 'loginControllerall@verify');
-Route::get('/logout', 'logoutControllerall@index')->name('logout');
+Route::get('/logout', 'logoutController@index')->name('logout');
 
 Route::group(['middleware'=>['sess']], function(){
 
@@ -47,6 +47,7 @@ Route::group(['middleware'=>['sess']], function(){
     Route::get('/seller/category', 'sellerController@guzzlereq')->name('seller.category');
     Route::post('/seller/addcategory', 'sellerController@addcategory');
     Route::get('/seller/getap', 'sellerController@getapproval');
+    Route::get('/seller/excelreport', 'sellerController@excelreport')->name('excel');
 
     });
 

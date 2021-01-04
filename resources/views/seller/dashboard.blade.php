@@ -182,14 +182,35 @@
       
     }
   
-    $('#order-report').click(function(){
+    $('#order-report').click(function(){   // excel report by ajax
+      $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+    var userid = {{session('username')}}
+    
+  $.ajax({
 
-      // var order= {{$orders[0]}};
-      
-      // alert(order);
-  //     var data = {{ $data }};
-  // alert(data);
-  //      downloadexcel(data);
+url: "/seller/excelreport",
+type: "get",
+
+data: {
+ 
+  'id': userid
+
+},
+success: function(response) {
+  var data = JSON.parse(response);
+ downloadexcel(data);
+
+},
+error: function (request, status, error) {
+alert(error);  //it will show error in webpage if any
+}
+
+});
+  
     })
   
 

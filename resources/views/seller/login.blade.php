@@ -43,6 +43,13 @@
     .justify-content-center.additemdiv {
         margin-left: 40%;
     }
+
+    .errmsg {
+        position: absolute;
+        /* position: relative; */
+        top: 410px;
+        left: 593px;
+    }
 </style>
 
 <body>
@@ -70,11 +77,16 @@
             <input type="submit" name="submit" class="btn btn-success">
 
         </fieldset>
+
     </form>
     <div class="msform">
         <a href="login/google"><input type="button" name="submit" value="Login With Google" class="btn btn-success"></a>
     </div>
-
+    <div class="errmsg">
+        <h3 style="color: red">
+            {{session('msg')}}
+        </h3>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous">
