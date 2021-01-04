@@ -56,6 +56,7 @@
 
     <form method="POST" id="msform">
         <fieldset>
+            <input type="hidden" name="_token" value="{{csrf_token()}}">
             <h1 class="mt-3"> </h1> <br>
             <div class="input-group input-group-lg">
                 <span class="input-group-addon"><span class="glyphicon glyphicon-user"> </span></span>

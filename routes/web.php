@@ -22,25 +22,34 @@ Route::get('/login', 'loginControllerall@index')->name('seller.login');
 Route::post('/login', 'loginControllerall@verify');
 Route::get('/logout', 'logoutControllerall@index')->name('logout');
 
+Route::group(['middleware'=>['sess']], function(){
 
-Route::get('/seller', 'sellerController@index')->name('seller.dashboard');
-Route::get('/seller/additem', 'sellerController@additem')->name('seller.additem');
-Route::get('/seller/manageitem', 'sellerController@manageitem')->name('seller.manageitem');
-Route::get('/seller/manageitem/edit/{id}', 'sellerController@edititem')->name('seller.edititem');
-Route::post('/seller/manageitem/edit/{id}', 'sellerController@updateitem');
-Route::post('/seller/manageitem/soldout', 'sellerController@soldout');
-Route::put('/seller/manageitem/stockavailable', 'sellerController@stockavailable');
-Route::get('/seller/manageitem/delete', 'sellerController@itemdelete');
-Route::get('/seller/review', 'sellerController@review')->name('seller.review');
-Route::post('/seller/review/delete', 'sellerController@reviewdelete');
-Route::get('/seller/order', 'sellerController@order')->name('seller.order');
-Route::put('/seller/order/approveorder', 'sellerController@approveorder')->name('seller.order');
-Route::post('/seller/additem', 'sellerController@itemstore');
-Route::get('/seller/profile', 'sellerController@profile')->name('seller.profile');
-Route::post('/seller/profile', 'sellerController@profileupdate')->name('seller.profileupdate');
-Route::get('/seller/message', 'sellerController@message')->name('seller.message');
-Route::post('/seller/message', 'sellerController@messagestore');
-Route::post('/seller/messageshow', 'sellerController@messageshow');
-Route::get('/seller/category', 'sellerController@guzzlereq')->name('seller.category');
-Route::post('/seller/addcategory', 'sellerController@addcategory');
-Route::get('/seller/getap', 'sellerController@getapproval');
+    Route::group(['middleware'=>['type']], function(){
+         
+    Route::get('/seller', 'sellerController@index')->name('seller.dashboard');
+    Route::get('/seller/additem', 'sellerController@additem')->name('seller.additem');
+    Route::get('/seller/manageitem', 'sellerController@manageitem')->name('seller.manageitem');
+    Route::get('/seller/manageitem/edit/{id}', 'sellerController@edititem')->name('seller.edititem');
+    Route::post('/seller/manageitem/edit/{id}', 'sellerController@updateitem');
+    Route::post('/seller/manageitem/soldout', 'sellerController@soldout');
+    Route::put('/seller/manageitem/stockavailable', 'sellerController@stockavailable');
+    Route::get('/seller/manageitem/delete', 'sellerController@itemdelete');
+    Route::get('/seller/review', 'sellerController@review')->name('seller.review');
+    Route::post('/seller/review/delete', 'sellerController@reviewdelete');
+    Route::get('/seller/order', 'sellerController@order')->name('seller.order');
+    Route::put('/seller/order/approveorder', 'sellerController@approveorder')->name('seller.order');
+    Route::post('/seller/additem', 'sellerController@itemstore');
+    Route::get('/seller/profile', 'sellerController@profile')->name('seller.profile');
+    Route::post('/seller/profile', 'sellerController@profileupdate')->name('seller.profileupdate');
+    Route::get('/seller/message', 'sellerController@message')->name('seller.message');
+    Route::post('/seller/message', 'sellerController@messagestore');
+    Route::post('/seller/messageshow', 'sellerController@messageshow');
+    Route::get('/seller/category', 'sellerController@guzzlereq')->name('seller.category');
+    Route::post('/seller/addcategory', 'sellerController@addcategory');
+    Route::get('/seller/getap', 'sellerController@getapproval');
+
+    });
+
+   
+    
+});

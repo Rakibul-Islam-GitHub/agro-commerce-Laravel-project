@@ -44,16 +44,23 @@ class loginControllerall extends Controller
       // $user= User::find()->all
        $user = User::where('email', $req->username)
                     ->where('password', $req->password)
-                    ->get();
-
-        if(count($user)>0){
-            $req->session()->put('username', $user->uid);
-            $req->session()->put('email', $req->username);
-            return redirect()->route('seller.dashboard');
-        }else{
-            $req->session()->flash('msg', 'invalid username/password');
-    		return redirect('/login');
-        }
+                    ->first();
+                    // if ($user->role== 'seller') {
+                        
+                    // }
+                    if(count($user)>0){
+                        if ($user->role== 'seller') {
+                            $req->session()->put('username', $user->uid);
+                        $req->session()->put('email', $req->username);
+                        $req->session()->put('type', 'seller');
+                        return redirect()->route('seller.dashboard');
+                        }
+                        
+                    } else{
+                        $req->session()->flash('msg', 'invalid username/password');
+                        return redirect('/login');
+                    }
+            
 
     }
 }
