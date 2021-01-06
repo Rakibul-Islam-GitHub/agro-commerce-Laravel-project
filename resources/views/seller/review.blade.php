@@ -84,7 +84,7 @@
         }
     });
       var id = $(this).attr('value');
-      alert(id);
+      //alert(id);
       deletereview(id);
     });
 

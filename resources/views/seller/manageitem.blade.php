@@ -1,5 +1,10 @@
 @extends('seller.layout')
 @section('title', 'Manage Product')
+<style>
+  .alert.alert-primary {
+    left: 418px;
+  }
+</style>
 @section('Dashboard', 'Manage Product')
 @section('content')
 <div class="card mb-3">
@@ -10,6 +15,11 @@
     <div class="input-group mb-0">
       <div class="form-group">
         <input type="text" id="myInput" class="form-control" placeholder="Search product by ID..">
+        @if(Session::has('success'))
+        <div class="alert alert-primary">
+          {{Session::get('success')}}
+        </div>
+        @endif
       </div>
 
     </div>

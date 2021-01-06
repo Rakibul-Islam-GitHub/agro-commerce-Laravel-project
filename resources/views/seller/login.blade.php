@@ -50,6 +50,10 @@
         top: 410px;
         left: 593px;
     }
+
+    img {
+        width: 50px;
+    }
 </style>
 
 <body>
@@ -74,13 +78,14 @@
                 <input type="password" name="password" class="form-control" placeholder="•••••••••••">
             </div>
             <br>
-            <input type="submit" name="submit" class="btn btn-success">
+            <input type="submit" name="submit" value="Sign In" class="btn btn-success">
 
         </fieldset>
 
     </form>
     <div class="msform">
-        <a href="login/google"><input type="button" name="submit" value="Login With Google" class="btn btn-success"></a>
+        <a href="login/google"><img src="/upload/google.png" alt="pic"><input type="button" name="submit"
+                value="Login With Google" class="btn btn-success"></a>
     </div>
     <div class="errmsg">
         <h3 style="color: red">

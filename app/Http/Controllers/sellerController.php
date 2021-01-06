@@ -217,7 +217,7 @@ class sellerController extends Controller
                 
                 $client->request('POST', 'http://localhost:3000/validator/validationreq', ['json' => ['pendingreq' =>$data[0]]]);
 
-                    return redirect()->route('seller.manageitem');
+                    return redirect()->route('seller.manageitem')->withSuccess('Your Product will be reviewed.Please wait for approval!');;
                 }else{
                     return back();
                 }
@@ -262,7 +262,7 @@ class sellerController extends Controller
     }
     public function message(Request $req){
         $id= $req->session()->get('username');
-        $data= User::where('uid', '!=', 10)->get();
+        $data= User::where('uid', '!=', $id)->get();
        
         return view('seller.message', compact('data'));
 
@@ -288,7 +288,7 @@ class sellerController extends Controller
        $senderid= $req->session()->get('username');
        $id = $req->userid;
        $data = DB::table('chats')
-       ->join('users', 'chats.uid', '=', 'users.uid')->where('users.uid', $senderid)->where('chats.receiver', $id)
+       ->join('users', 'chats.uid', '=', 'users.uid')->where('users.uid', $senderid)->where('chats.receiver', $id)->orwhere('chats.sender', $id)
        ->select('chats.*', 'users.name')
        ->get();
         return json_encode(array('data'=>$data));
@@ -352,7 +352,7 @@ class sellerController extends Controller
     public function excelreport(Request $req){
         $id= $req->id;
         $data = DB::table('orders')
-       ->join('invoice', 'invoice.oid', '=', 'orders.oid')->where('invoice.sellerid', $id)
+       ->join('invoice', 'invoice.oid', '=', 'orders.oid')->where('invoice.sellerid', $id)->where('orders.status','complete')
        ->select('orders.*')
        ->get();
     

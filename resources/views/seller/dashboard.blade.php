@@ -12,7 +12,7 @@
         </div>
         <div class="mr-5"> {{$reviews}} reviews!</div>
       </div>
-      <a class="card-footer text-white clearfix small z-1" href="/seller/comments">
+      <a class="card-footer text-white clearfix small z-1" href="/seller/review">
         <span class="float-left">View Details</span>
         <span class="float-right">
           <i class="fa fa-angle-right"></i>
@@ -201,9 +201,9 @@ data: {
 
 },
 success: function(response) {
-  alert(response);
+ // alert(response);
   var data = JSON.parse(response);
- //downloadexcel(data);
+ downloadexcel(data);
 
 },
 error: function (request, status, error) {
